@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 // actions
@@ -14,13 +14,15 @@ import Spinner from "../components/Spinner";
 // const
 import link from "../constants/links";
 import { timeConvert } from "../utils";
+import { NavigationContainer } from "@react-navigation/native";
 
 const MovieDetailScreen = ({
   route,
   loading,
   movieDetails,
   fetchMovieDetails,
-  clearMovieDetails
+  clearMovieDetails,
+  navigation
 }) => {
   useEffect(() => {
     const { params } = route;
@@ -80,16 +82,22 @@ const MovieDetailScreen = ({
           <View style={styles.flexRow}>
             {cast !== undefined
               ? cast.map((person, index) => (
-                  <View style={styles.flexHalf} key={index}>
-                    <Image
-                      style={styles.castImage}
-                      source={{
-                        uri: `${link.imagePath}${person.profile_path}`
-                      }}
-                    />
-                    <Text style={styles.movieTitle}>{person.name}</Text>
-                    <Text style={styles.movieDesc}>{person.character}</Text>
-                  </View>
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.flexHalf}
+                    onPress={() => navigation.navigate("Person", person.id)}
+                  >
+                    <View>
+                      <Image
+                        style={styles.castImage}
+                        source={{
+                          uri: `${link.imagePath}${person.profile_path}`
+                        }}
+                      />
+                      <Text style={styles.movieTitle}>{person.name}</Text>
+                      <Text style={styles.movieDesc}>{person.character}</Text>
+                    </View>
+                  </TouchableOpacity>
                 ))
               : null}
           </View>

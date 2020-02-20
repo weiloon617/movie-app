@@ -35,7 +35,7 @@ const TrendingMovieScreen = ({
           <MovieContainer
             key={index}
             movieInfo={movie}
-            onPress={id => navigation.navigate("Details", id)}
+            onPress={id => navigation.navigate("Movie", id)}
             isLastMovieContainer={index === trendingMovieList.length - 1}
           />
         ))}

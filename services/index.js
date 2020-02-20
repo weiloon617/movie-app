@@ -46,5 +46,23 @@ export async function getMovieCredits(payload) {
  * @param {*} payload
  */
 export async function searchMovies(payload) {
-  return GET(`${link.baseUrl}/search/movie?api_key=${api_key}`);
+  return GET(`${link.baseUrl}/search/movie?api_key=${link.api_key}`);
+}
+
+/**
+ * Get Person Details
+ * @param {*} payload
+ */
+export async function getPersonDetails(payload) {
+  return GET(`${link.baseUrl}/person/${payload}?api_key=${link.api_key}`);
+}
+
+/**
+ * Get Person Movie Credits
+ * @param {*} payload
+ */
+export async function getPersonMovieCredits(payload) {
+  return GET(
+    `${link.baseUrl}/person/${payload}/movie_credits?api_key=${link.api_key}`
+  );
 }

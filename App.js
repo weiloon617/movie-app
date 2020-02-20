@@ -15,7 +15,10 @@ import thunk from "redux-thunk";
 
 // reducer
 import { rootReducer } from "./store/reducers";
-import MovieDetailScreen from "./screens/MovieDetailScreen";
+
+// Screens
+import MovieDetailsScreen from "./screens/MovieDetailsScreen";
+import PersonDetailsScreen from "./screens/PersonDetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -61,10 +64,17 @@ const App = ({ skipLoadingScreen }) => {
             <Stack.Navigator>
               <Stack.Screen name="Root" component={BottomTabNavigator} />
               <Stack.Screen
-                name="Details"
-                component={MovieDetailScreen}
+                name="Movie"
+                component={MovieDetailsScreen}
                 options={{
-                  // headerTransparent: true,
+                  headerBackTitle: "",
+                  headerTitle: ""
+                }}
+              />
+              <Stack.Screen
+                name="Person"
+                component={PersonDetailsScreen}
+                options={{
                   headerBackTitle: "",
                   headerTitle: ""
                 }}

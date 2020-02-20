@@ -5,9 +5,11 @@ import { combineReducers } from "redux";
 import popularMovieReducer from "./popularMovie";
 import trendingMovieReducer from "./trendingMovie";
 import movieDetailsReducer from "./movieDetails";
+import personDetailsReducer from "./personDetails";
 
 export const rootReducer = combineReducers({
   popularMovie: popularMovieReducer,
   trendingMovie: trendingMovieReducer,
-  movieDetails: movieDetailsReducer
+  movieDetails: movieDetailsReducer,
+  personDetails: personDetailsReducer
 });
