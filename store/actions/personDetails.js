@@ -57,10 +57,3 @@ export const fetchPersonDetails = payload => dispatch => {
     .catch(err => dispatch(fetchPersonDetailsFail(err.message)))
     .finally(() => dispatch(fetchPersonDetailsDone()));
 };
-
-/**
- * clear person details
- */
-export const clearPersonDetails = () => ({
-  type: actions.CLEAR_PERSON_DETRAILS
-});

@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 
 // components
 import MovieContainer from "../components/MovieContainer";
+import Spinner from "../components/Spinner";
 
 const TrendingMovieScreen = ({
   loading,
@@ -25,23 +26,29 @@ const TrendingMovieScreen = ({
     fetchTrendingMovieList({ page, mediaType, timeWindow });
   }, []);
 
-  return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
-    >
-      <View>
-        {trendingMovieList.map((movie, index) => (
-          <MovieContainer
-            key={index}
-            movieInfo={movie}
-            onPress={id => navigation.navigate("Movie", id)}
-            isLastMovieContainer={index === trendingMovieList.length - 1}
-          />
-        ))}
-      </View>
-    </ScrollView>
-  );
+  let trendingMovieView = <Spinner />;
+
+  if (!loading && trendingMovieList.length !== 0) {
+    trendingMovieView = (
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <View>
+          {trendingMovieList.map((movie, index) => (
+            <MovieContainer
+              key={index}
+              movieInfo={movie}
+              onPress={id => navigation.navigate("Movie", id)}
+              isLastMovieContainer={index === trendingMovieList.length - 1}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    );
+  }
+
+  return trendingMovieView;
 };
 
 const styles = StyleSheet.create({

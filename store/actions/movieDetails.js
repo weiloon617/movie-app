@@ -57,10 +57,3 @@ export const fetchMovieDetails = payload => dispatch => {
     .catch(err => dispatch(fetchMovieDetailsFail(err.message)))
     .finally(() => dispatch(fetchMovieDetailsDone()));
 };
-
-/**
- * clear movie details
- */
-export const clearMovieDetails = () => ({
-  type: actions.CLEAR_MOVIE_DETRAILS
-});

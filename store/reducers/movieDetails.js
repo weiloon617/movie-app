@@ -26,9 +26,6 @@ const reducer = (state = initialState, action) => {
     case actionsType.FETCH_MOVIE_DETAILS_DONE:
       return { ...state, loading: false };
 
-    case actionsType.CLEAR_MOVIE_DETRAILS:
-      return { ...state, movieDetails: {} };
-
     default:
       return { ...state };
   }

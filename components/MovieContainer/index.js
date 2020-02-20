@@ -26,14 +26,13 @@ const MovieContainer = ({ movieInfo, isLastMovieContainer, onPress }) => {
         </View>
 
         <View style={styles.movieTextContainer}>
-          <Text style={styles.movieTitle}>Movie Name:</Text>
-          <Text style={styles.movieText}>{title}</Text>
+          <Text style={styles.movieHeadline}>{title}</Text>
 
           <Text style={styles.movieTitle}>Release Date:</Text>
           <Text style={styles.movieText}>{release_date}</Text>
 
           <Text style={styles.movieTitle}>Overview:</Text>
-          <ViewMoreText numberOfLines={2}>
+          <ViewMoreText numberOfLines={3}>
             <Text style={styles.movieText}>{overview}</Text>
           </ViewMoreText>
         </View>
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
   },
   movieImage: {
     width: "100%",
-    height: 100
+    height: 150
   },
   lastMovieContainer: {
     borderBottomWidth: StyleSheet.hairlineWidth
@@ -69,13 +68,19 @@ const styles = StyleSheet.create({
   movieTextContainer: {
     width: "70%"
   },
+  movieHeadline: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 13
+  },
   movieTitle: {
     fontSize: 15,
+    fontWeight: "600",
     marginBottom: 2
   },
   movieText: {
     fontSize: 14,
-    marginBottom: 5
+    marginBottom: 13
   }
 });
 

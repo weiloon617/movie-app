@@ -26,9 +26,6 @@ const reducer = (state = initialState, action) => {
     case actionsType.FETCH_PERSON_DETAILS_DONE:
       return { ...state, loading: false };
 
-    case actionsType.CLEAR_PERSON_DETRAILS:
-      return { ...state, personDetails: {} };
-
     default:
       return { ...state };
   }

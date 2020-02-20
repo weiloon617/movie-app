@@ -1,4 +1,4 @@
-import { GET } from "../request";
+import { GET } from "../utils/request";
 
 import link from "../constants/links";
 

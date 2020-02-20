@@ -1,3 +1,7 @@
+/**
+ * time conversion
+ * @param {*} num
+ */
 export const timeConvert = num => {
   const hours = num / 60;
   const rhours = Math.floor(hours);

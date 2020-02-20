@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import ViewMoreText from "react-native-view-more-text";
 
 // actions
 import * as actions from "../store/actions";
@@ -13,24 +14,21 @@ import Spinner from "../components/Spinner";
 
 // const
 import link from "../constants/links";
+
+// utils
 import { timeConvert } from "../utils";
-import { NavigationContainer } from "@react-navigation/native";
+import { renderViewMore, renderViewLess } from "../utils/viewMore";
 
 const MovieDetailScreen = ({
   route,
   loading,
   movieDetails,
   fetchMovieDetails,
-  clearMovieDetails,
   navigation
 }) => {
   useEffect(() => {
     const { params } = route;
     fetchMovieDetails(params);
-
-    return () => {
-      clearMovieDetails();
-    };
   }, []);
 
   let movieDetailsView = <Spinner />;
@@ -56,35 +54,41 @@ const MovieDetailScreen = ({
               style={styles.movieDetailsImage}
               source={{ uri: `${link.imagePath}${poster_path}` }}
               resizeMethod={"auto"}
-            ></Image>
+            />
 
             <View style={styles.movieDetailsDesc}>
               <Text style={styles.movieHeadline}>{title}</Text>
 
-              <Text style={styles.movieTitle}>Release Date:</Text>
-              <Text style={styles.movieDesc}>{release_date}</Text>
+              <Text style={styles.title}>Release Date:</Text>
+              <Text style={styles.desc}>{release_date}</Text>
 
-              <Text style={styles.movieTitle}>User Score:</Text>
-              <Text style={styles.movieDesc}>{vote_average * 10}%</Text>
+              <Text style={styles.title}>User Score:</Text>
+              <Text style={styles.desc}>{vote_average * 10}%</Text>
 
-              <Text style={styles.movieTitle}>Run Time:</Text>
-              <Text style={styles.movieDesc}>{timeConvert(runtime)}</Text>
+              <Text style={styles.title}>Run Time:</Text>
+              <Text style={styles.desc}>{timeConvert(runtime)}</Text>
             </View>
           </View>
 
-          <Text style={styles.movieTitle}>Overview:</Text>
-          <Text style={styles.movieDesc}>{overview}</Text>
+          <Text style={styles.title}>Overview:</Text>
+          <ViewMoreText
+            numberOfLines={5}
+            renderViewLess={renderViewLess}
+            renderViewMore={renderViewMore}
+          >
+            <Text style={styles.desc}>{overview}</Text>
+          </ViewMoreText>
         </View>
 
-        <View style={styles.movieCrewContainer}>
-          <Text style={styles.crewTitle}>Top Billed Cast:</Text>
+        <View style={styles.movieCastContainer}>
+          <Text style={styles.castHeadline}>Casts:</Text>
 
           <View style={styles.flexRow}>
             {cast !== undefined
               ? cast.map((person, index) => (
                   <TouchableOpacity
                     key={index}
-                    style={styles.flexHalf}
+                    style={styles.halfWidth}
                     onPress={() => navigation.navigate("Person", person.id)}
                   >
                     <View>
@@ -94,8 +98,8 @@ const MovieDetailScreen = ({
                           uri: `${link.imagePath}${person.profile_path}`
                         }}
                       />
-                      <Text style={styles.movieTitle}>{person.name}</Text>
-                      <Text style={styles.movieDesc}>{person.character}</Text>
+                      <Text style={styles.title}>{person.name}</Text>
+                      <Text style={styles.desc}>{person.character}</Text>
                     </View>
                   </TouchableOpacity>
                 ))
@@ -128,42 +132,48 @@ const styles = StyleSheet.create({
     height: 200
   },
   movieDetailsDesc: {
-    marginLeft: 15
+    width: "60%",
+    marginLeft: 15,
+    paddingRight: 10
   },
   movieHeadline: {
     fontSize: 20,
     fontWeight: "700",
     marginBottom: 18
   },
-  movieTitle: {
+
+  title: {
     fontSize: 16,
     fontWeight: "600"
   },
-  movieDesc: {
+  desc: {
     fontSize: 15,
     marginBottom: 18
   },
-  movieCrewContainer: {
+
+  movieCastContainer: {
     backgroundColor: "#fff",
     padding: 15,
     marginTop: 15
   },
+
   flexRow: {
     flexDirection: "row",
     width: "100%",
     flexWrap: "wrap"
   },
-  flexHalf: {
+  halfWidth: {
     width: "50%"
   },
-  crewTitle: {
+
+  castHeadline: {
     fontSize: 20,
     fontWeight: "600",
     marginBottom: 10
   },
   castImage: {
-    width: "50%",
-    height: 100
+    width: "70%",
+    height: 140
   }
 });
 
@@ -178,8 +188,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchMovieDetails: payload => dispatch(actions.fetchMovieDetails(payload)),
-    clearMovieDetails: () => dispatch(actions.clearMovieDetails())
+    fetchMovieDetails: payload => dispatch(actions.fetchMovieDetails(payload))
   };
 };
 
