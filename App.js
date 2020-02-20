@@ -4,8 +4,7 @@ import { SplashScreen } from "expo";
 
 // navigations
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import BottomTabNavigator from "./navigation/BottomTabNavigator";
+import StackNavigator from "./navigation/StackNavigator";
 import useLinking from "./navigation/useLinking";
 
 // redux
@@ -15,12 +14,6 @@ import thunk from "redux-thunk";
 
 // reducer
 import { rootReducer } from "./store/reducers";
-
-// Screens
-import MovieDetailsScreen from "./screens/MovieDetailsScreen";
-import PersonDetailsScreen from "./screens/PersonDetailsScreen";
-
-const Stack = createStackNavigator();
 
 const store = createStore(rootReducer, {}, compose(applyMiddleware(thunk)));
 
@@ -61,25 +54,7 @@ const App = ({ skipLoadingScreen }) => {
             ref={containerRef}
             initialState={initialNavigationState}
           >
-            <Stack.Navigator>
-              <Stack.Screen name="Root" component={BottomTabNavigator} />
-              <Stack.Screen
-                name="Movie"
-                component={MovieDetailsScreen}
-                options={{
-                  headerBackTitle: "",
-                  headerTitle: ""
-                }}
-              />
-              <Stack.Screen
-                name="Person"
-                component={PersonDetailsScreen}
-                options={{
-                  headerBackTitle: "",
-                  headerTitle: ""
-                }}
-              />
-            </Stack.Navigator>
+            <StackNavigator />
           </NavigationContainer>
         </View>
       </Provider>

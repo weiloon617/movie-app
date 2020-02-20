@@ -4,20 +4,20 @@ import { ScrollView } from "react-native-gesture-handler";
 import ViewMoreText from "react-native-view-more-text";
 
 // actions
-import * as actions from "../store/actions";
+import * as actions from "../../store/actions";
 
 // redux
 import { connect } from "react-redux";
 
 // components
-import Spinner from "../components/Spinner";
+import Spinner from "../../components/Spinner";
 
 // const
-import link from "../constants/links";
+import link from "../../constants/links";
 
 // utils
-import { timeConvert } from "../utils";
-import { renderViewMore, renderViewLess } from "../utils/viewMore";
+import { timeConvert } from "../../utils";
+import { renderViewMore, renderViewLess } from "../../utils/viewMore";
 
 const MovieDetailScreen = ({
   route,

@@ -14,13 +14,21 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const INITIAL_ROUTE_NAME = "Popular";
 
+const tabBarConfig = {
+  labelStyle: { fontSize: 14 },
+  tabStyle: { padding: 5 }
+};
+
 const BottomTabNavigator = ({ navigation, route }) => {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab.
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
   return (
-    <Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <Navigator
+      initialRouteName={INITIAL_ROUTE_NAME}
+      tabBarOptions={tabBarConfig}
+    >
       <Screen
         name="Popular"
         component={PopularMovieScreen}

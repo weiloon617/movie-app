@@ -7,7 +7,9 @@ const initialState = {
   totalPages: 0,
   totalResults: 0,
   trendingMovieList: [],
-  errorMessage: ""
+  errorMessage: "",
+  mediaType: "movie",
+  timeWindow: "day"
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,6 +27,13 @@ const reducer = (state = initialState, action) => {
 
     case actionsType.FETCH_TRENDING_MOVIE_LIST_DONE:
       return { ...state, loading: false };
+
+    case actionsType.UPDATE_FILTER_STATE:
+      const { updatedState } = action;
+      return { ...state, ...updatedState };
+
+    case actionsType.RESET_FILTER_STATE:
+      return { ...state, mediaType: "movie", timeWindow: "day" };
 
     default:
       return { ...state };

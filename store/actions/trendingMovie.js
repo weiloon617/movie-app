@@ -60,3 +60,19 @@ export const fetchTrendingMovieList = payload => dispatch => {
     })
     .finally(() => dispatch(fetchTrendingMovieListDone()));
 };
+
+/**
+ * update filter state
+ * @param {*} updatedState
+ */
+export const updateFilterState = updatedState => ({
+  type: actions.UPDATE_FILTER_STATE,
+  updatedState
+});
+
+/**
+ * reset filter state
+ */
+export const resetFilterState = () => ({
+  type: actions.RESET_FILTER_STATE
+});

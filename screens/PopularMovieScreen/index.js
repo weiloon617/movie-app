@@ -3,14 +3,14 @@ import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 // actions
-import * as actions from "../store/actions";
+import * as actions from "../../store/actions";
 
 // redux
 import { connect } from "react-redux";
 
 // components
-import MovieContainer from "../components/MovieContainer";
-import Spinner from "../components/Spinner";
+import MovieContainer from "../../components/MovieContainer";
+import Spinner from "../../components/Spinner";
 
 const PopularMovieScreen = ({
   loading,
