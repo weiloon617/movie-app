@@ -43,10 +43,8 @@ export const fetchPersonDetailsDone = () => ({
 export const fetchPersonDetails = payload => dispatch => {
   dispatch(fetchPersonDetailsStart());
 
-  console.log("here");
   getPersonDetails(payload)
     .then(res => {
-      console.log(res);
       dispatch(fetchPersonDetailsSuccess(res));
     })
     .then(() => {
