@@ -64,7 +64,7 @@ const App = ({ skipLoadingScreen }) => {
                 name="Details"
                 component={MovieDetailScreen}
                 options={{
-                  headerTransparent: true,
+                  // headerTransparent: true,
                   headerBackTitle: "",
                   headerTitle: ""
                 }}

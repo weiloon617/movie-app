@@ -14,7 +14,8 @@ import MovieContainer from "../components/MovieContainer";
 const TrendingMovieScreen = ({
   loading,
   trendingMovieList,
-  fetchTrendingMovieList
+  fetchTrendingMovieList,
+  navigation
 }) => {
   const [page, setPage] = useState(1);
   const [mediaType, setMediaType] = useState("all");
@@ -34,7 +35,7 @@ const TrendingMovieScreen = ({
           <MovieContainer
             key={index}
             movieInfo={movie}
-            onPress={() => null}
+            onPress={id => navigation.navigate("Details", id)}
             isLastMovieContainer={index === trendingMovieList.length - 1}
           />
         ))}
