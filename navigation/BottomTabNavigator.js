@@ -1,52 +1,62 @@
 import * as React from "react";
+
+// navigations
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import TabBarIcon from "../components/TabBarIcon";
-import HomeScreen from "../screens/HomeScreen";
+
+// components
+import TabBarIcon from "../components/TabBarIcon";
+
+// screens
 import LinksScreen from "../screens/LinksScreen";
+import PopularMovieScreen from "../screens/PopularMovieScreen";
 
-const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = "Home";
+const { Navigator, Screen } = createBottomTabNavigator();
 
-export default function BottomTabNavigator({ navigation, route }) {
+const INITIAL_ROUTE_NAME = "Popular";
+
+const BottomTabNavigator = ({ navigation, route }) => {
   // Set the header title on the parent stack navigator depending on the
-  // currently active tab. Learn more in the documentation:
-  // https://reactnavigation.org/docs/en/screen-options-resolution.html
+  // currently active tab.
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
-      <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
+    <Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+      <Screen
+        name="Popular"
+        component={PopularMovieScreen}
         options={{
-          title: "Get Started"
+          title: "Popular Movies"
           // tabBarIcon: ({ focused }) => (
           //   <TabBarIcon focused={focused} name="md-code-working" />
           // )
         }}
       />
-      <BottomTab.Screen
-        name="Links"
+      <Screen
+        name="Trending"
         component={LinksScreen}
         options={{
-          title: "Resources"
+          title: "Trending List"
           // tabBarIcon: ({ focused }) => (
           //   <TabBarIcon focused={focused} name="md-book" />
           // )
         }}
       />
-    </BottomTab.Navigator>
+    </Navigator>
   );
-}
+};
 
-function getHeaderTitle(route) {
+export default BottomTabNavigator;
+
+const getHeaderTitle = route => {
   const routeName =
     route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
   switch (routeName) {
-    case "Home":
-      return "How to get started";
-    case "Links":
-      return "Links to learn more";
+    case "Popular":
+      return "Popular Movies";
+    case "Trending":
+      return "Trending List";
+    default:
+      return null;
   }
-}
+};
