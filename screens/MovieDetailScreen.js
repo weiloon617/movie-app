@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-const MovieDetailScreen = ({ route }) => {
-  const { params } = route;
+// actions
+import * as actions from "../store/actions";
+
+// redux
+import { connect } from "react-redux";
+
+const MovieDetailScreen = ({
+  route,
+  loading,
+  movieDetails,
+  fetchMovieDetails,
+  clearMovieDetails
+}) => {
+  useEffect(() => {
+    const { params } = route;
+    fetchMovieDetails(params);
+
+    return () => {
+      clearMovieDetails();
+    };
+  }, []);
 
   return (
     <ScrollView
@@ -11,7 +30,7 @@ const MovieDetailScreen = ({ route }) => {
       contentContainerStyle={styles.contentContainer}
     >
       <View>
-        <Text>HAHJAdasdas</Text>
+        <Text>Movie Detials</Text>
       </View>
     </ScrollView>
   );
@@ -27,4 +46,20 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MovieDetailScreen;
+const mapStateToProps = state => {
+  const { movieDetails } = state;
+
+  return {
+    loading: movieDetails.loading,
+    movieDetails: movieDetails.movieDetails
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchMovieDetails: payload => dispatch(actions.fetchMovieDetails(payload)),
+    clearMovieDetails: () => dispatch(actions.clearMovieDetails())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetailScreen);

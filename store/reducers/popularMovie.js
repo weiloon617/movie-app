@@ -17,11 +17,14 @@ const reducer = (state = initialState, action) => {
 
     case actionsType.FETCH_POPULAR_MOVIE_LIST_FAIL:
       const { errorMessage } = action;
-      return { ...state, loading: false, errorMessage };
+      return { ...state, errorMessage };
 
     case actionsType.FETCH_POPULAR_MOVIE_LIST_SUCCESS:
       const { popularMovieListInfo } = action;
-      return { ...state, loading: false, ...popularMovieListInfo };
+      return { ...state, ...popularMovieListInfo };
+
+    case actionsType.FETCH_POPULAR_MOVIE_LIST_DONE:
+      return { ...state, loading: false };
 
     default:
       return { ...state };

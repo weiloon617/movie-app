@@ -30,6 +30,13 @@ export const fetchTrendingMovieListSuccess = trendingMovieListInfo => ({
 });
 
 /**
+ * done fetching trending movie list
+ */
+export const fetchTrendingMovieListDone = () => ({
+  type: actions.FETCH_TRENDING_MOVIE_LIST_DONE
+});
+
+/**
  * fetch trending movie list
  * @param {*} payload
  */
@@ -50,5 +57,6 @@ export const fetchTrendingMovieList = payload => dispatch => {
     })
     .catch(err => {
       dispatch(fetchTrendingMovieListFail(err.message));
-    });
+    })
+    .finally(() => dispatch(fetchTrendingMovieListDone()));
 };

@@ -3,7 +3,6 @@ import * as actions from "./actions";
 
 // services
 import { getPopularMovieList } from "../../services";
-import { Toast } from "@ant-design/react-native";
 
 /**
  * fetch popular movie list start
@@ -31,13 +30,18 @@ export const fetchPopularMovieListSuccess = popularMovieListInfo => ({
 });
 
 /**
+ * done fetching popular movie list
+ */
+export const fetchPopularMovieListDone = () => ({
+  type: actions.FETCH_POPULAR_MOVIE_LIST_DONE
+});
+
+/**
  * fetch popular movie list
  * @param {*} payload
  */
 export const fetchPopularMovieList = payload => dispatch => {
   dispatch(fetchPopularMovieListStart());
-
-  Toast.loading("loading...", 3000);
 
   getPopularMovieList(payload)
     .then(res => {
@@ -54,5 +58,6 @@ export const fetchPopularMovieList = payload => dispatch => {
     })
     .catch(err => {
       dispatch(fetchPopularMovieListFail(err.message));
-    });
+    })
+    .finally(() => dispatch(fetchPopularMovieListDone()));
 };

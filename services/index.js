@@ -22,3 +22,29 @@ export async function getTrendingMovieList(payload) {
     `${link.baseUrl}/trending/${mediaType}/${timeWindow}?api_key=${link.api_key}`
   );
 }
+
+/**
+ * Get Movie Details
+ * @param {*} payload
+ */
+export async function getMovieDetails(payload) {
+  return GET(`${link.baseUrl}/movie/${payload}?api_key=${link.api_key}`);
+}
+
+/**
+ * Get Movie Credits
+ * @param {*} payload
+ */
+export async function getMovieCredits(payload) {
+  return GET(
+    `${link.baseUrl}/movie/${payload}/credits?api_key=${link.api_key}`
+  );
+}
+
+/**
+ * Search Movies
+ * @param {*} payload
+ */
+export async function searchMovies(payload) {
+  return GET(`${link.baseUrl}/search/movie?api_key=${api_key}`);
+}
