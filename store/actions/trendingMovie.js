@@ -24,9 +24,9 @@ export const fetchTrendingMovieListFail = errorMessage => ({
  * fetch trending movie list success
  * @param {*} trendingMovieList
  */
-export const fetchTrendingMovieListSuccess = trendingMovieList => ({
+export const fetchTrendingMovieListSuccess = trendingMovieListInfo => ({
   type: actions.FETCH_TRENDING_MOVIE_LIST_SUCCESS,
-  trendingMovieList
+  trendingMovieListInfo
 });
 
 /**
@@ -38,7 +38,15 @@ export const fetchTrendingMovieList = payload => dispatch => {
 
   getTrendingMovieList(payload)
     .then(res => {
-      dispatch(fetchTrendingMovieListSuccess(res));
+      const { page, total_results, total_pages, results } = res;
+      dispatch(
+        fetchTrendingMovieListSuccess({
+          page,
+          totalPages: total_pages,
+          totalResults: total_results,
+          trendingMovieList: results
+        })
+      );
     })
     .catch(err => {
       dispatch(fetchTrendingMovieListFail(err.message));

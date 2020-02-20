@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 // actions
@@ -11,15 +11,17 @@ import { connect } from "react-redux";
 // components
 import MovieContainer from "../components/MovieContainer";
 
-const PopularMovieScreen = ({
+const TrendingMovieScreen = ({
   loading,
-  popularMovieList,
-  fetchPopularMovieList
+  trendingMovieList,
+  fetchTrendingMovieList
 }) => {
   const [page, setPage] = useState(1);
+  const [mediaType, setMediaType] = useState("all");
+  const [timeWindow, setTimeWindow] = useState("day");
 
   useEffect(() => {
-    fetchPopularMovieList({ page });
+    fetchTrendingMovieList({ page, mediaType, timeWindow });
   }, []);
 
   return (
@@ -28,12 +30,12 @@ const PopularMovieScreen = ({
       contentContainerStyle={styles.contentContainer}
     >
       <View>
-        {popularMovieList.map((movie, index) => (
+        {trendingMovieList.map((movie, index) => (
           <MovieContainer
             key={index}
             movieInfo={movie}
             onPress={() => null}
-            isLastMovieContainer={index === popularMovieList.length - 1}
+            isLastMovieContainer={index === trendingMovieList.length - 1}
           />
         ))}
       </View>
@@ -52,17 +54,20 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const { popularMovie } = state;
-  const { loading, popularMovieList } = popularMovie;
+  const { trendingMovie } = state;
+  const { loading, trendingMovieList } = trendingMovie;
 
-  return { loading, popularMovieList };
+  return { loading, trendingMovieList };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPopularMovieList: payload =>
-      dispatch(actions.fetchPopularMovieList(payload))
+    fetchTrendingMovieList: payload =>
+      dispatch(actions.fetchTrendingMovieList(payload))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PopularMovieScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TrendingMovieScreen);

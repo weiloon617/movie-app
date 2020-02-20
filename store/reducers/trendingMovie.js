@@ -3,6 +3,9 @@ import * as actionsType from "../actions/actions";
 
 const initialState = {
   loading: false,
+  page: 1,
+  totalPages: 0,
+  totalResults: 0,
   trendingMovieList: [],
   errorMessage: ""
 };
@@ -17,8 +20,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, loading: false, errorMessage };
 
     case actionsType.FETCH_TRENDING_MOVIE_LIST_SUCCESS:
-      const { trendingMovieList } = action;
-      return { ...state, loading: false, trendingMovieList };
+      const { trendingMovieListInfo } = action;
+      return { ...state, loading: false, ...trendingMovieListInfo };
 
     default:
       return { ...state };

@@ -19,6 +19,6 @@ export async function getTrendingMovieList(payload) {
   const { mediaType, timeWindow } = payload;
 
   return GET(
-    `${link.baseUrl}trending/${mediaType}/${timeWindow}?api_key=${link.api_key}`
+    `${link.baseUrl}/trending/${mediaType}/${timeWindow}?api_key=${link.api_key}`
   );
 }

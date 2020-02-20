@@ -4,11 +4,11 @@ import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // components
-import TabBarIcon from "../components/TabBarIcon";
+// import TabBarIcon from "../components/TabBarIcon";
 
 // screens
-import LinksScreen from "../screens/LinksScreen";
 import PopularMovieScreen from "../screens/PopularMovieScreen";
+import TrendingMovieScreen from "../screens/TrendingMovieScreen";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -33,7 +33,7 @@ const BottomTabNavigator = ({ navigation, route }) => {
       />
       <Screen
         name="Trending"
-        component={LinksScreen}
+        component={TrendingMovieScreen}
         options={{
           title: "Trending List"
           // tabBarIcon: ({ focused }) => (
