@@ -7,7 +7,7 @@ import ViewMoreText from "react-native-view-more-text";
 import link from "../../constants/links";
 
 const MovieContainer = ({ movieInfo, isLastMovieContainer, onPress }) => {
-  const { poster_path, title, release_date, overview } = movieInfo;
+  const { poster_path, title, release_date, overview, id } = movieInfo;
 
   return (
     <RectButton
@@ -15,6 +15,7 @@ const MovieContainer = ({ movieInfo, isLastMovieContainer, onPress }) => {
         styles.movieContainer,
         isLastMovieContainer && styles.lastMovieContainer
       ]}
+      onPress={() => onPress(id)}
     >
       <View style={styles.movieInnerContainer}>
         <View style={styles.movieImageContainer}>

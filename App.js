@@ -15,6 +15,7 @@ import thunk from "redux-thunk";
 
 // reducer
 import { rootReducer } from "./store/reducers";
+import MovieDetailScreen from "./screens/MovieDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -59,6 +60,15 @@ const App = ({ skipLoadingScreen }) => {
           >
             <Stack.Navigator>
               <Stack.Screen name="Root" component={BottomTabNavigator} />
+              <Stack.Screen
+                name="Details"
+                component={MovieDetailScreen}
+                options={{
+                  headerTransparent: true,
+                  headerBackTitle: "",
+                  headerTitle: ""
+                }}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </View>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 // actions
@@ -14,7 +14,8 @@ import MovieContainer from "../components/MovieContainer";
 const PopularMovieScreen = ({
   loading,
   popularMovieList,
-  fetchPopularMovieList
+  fetchPopularMovieList,
+  navigation
 }) => {
   const [page, setPage] = useState(1);
 
@@ -32,7 +33,7 @@ const PopularMovieScreen = ({
           <MovieContainer
             key={index}
             movieInfo={movie}
-            onPress={() => null}
+            onPress={id => navigation.navigate("Details", id)}
             isLastMovieContainer={index === popularMovieList.length - 1}
           />
         ))}
