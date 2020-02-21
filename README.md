@@ -26,6 +26,9 @@ npm install
 # start the expo project
 expo start
 
+# publish project
+expo publish
+
 # build expo project (default)
 expo build
 
