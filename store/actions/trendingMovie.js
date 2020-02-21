@@ -78,8 +78,8 @@ export const resetFilterState = () => ({
 });
 
 /**
- * refresh trending movie list
+ * clear trending movie list
  */
-export const refreshTrendingMovieList = () => ({
-  type: actions.REFRESH_TRENDING_MOVIE_LIST
+export const clearTrendingMovieList = () => ({
+  type: actions.CLEAR_TRENDING_MOVIE_LIST
 });

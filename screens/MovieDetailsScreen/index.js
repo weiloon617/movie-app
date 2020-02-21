@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 
 // components
 import Spinner from "../../components/Spinner";
+import CastContainer from "./components/CastContainer";
+import InfoContainer from "../../components/InfoContainer";
 
 // const
 import link from "../../constants/links";
@@ -26,6 +28,7 @@ const MovieDetailScreen = ({
   fetchMovieDetails,
   navigation
 }) => {
+  // load movie detials
   useEffect(() => {
     const { params } = route;
     fetchMovieDetails(params);
@@ -34,15 +37,6 @@ const MovieDetailScreen = ({
   let movieDetailsView = <Spinner />;
 
   if (!loading && Object.values(movieDetails).length !== 0) {
-    const {
-      title,
-      overview,
-      poster_path,
-      release_date,
-      vote_average,
-      cast,
-      runtime
-    } = movieDetails;
     movieDetailsView = (
       <ScrollView
         style={styles.container}
@@ -50,62 +44,59 @@ const MovieDetailScreen = ({
       >
         <View style={styles.movieDetailsContainer}>
           <View style={styles.movieDetialsInfo}>
+            {/* movie poster */}
             <Image
               style={styles.movieDetailsImage}
-              source={{ uri: `${link.imagePath}${poster_path}` }}
-              resizeMethod={"auto"}
+              source={{ uri: `${link.imagePath}${movieDetails.poster_path}` }}
             />
 
             <View style={styles.movieDetailsDesc}>
-              <Text style={styles.movieHeadline}>{title}</Text>
+              {/* title */}
+              <Text style={styles.movieHeadline}>{movieDetails.title}</Text>
 
-              <Text style={styles.title}>Release Date:</Text>
-              <Text style={styles.desc}>{release_date}</Text>
+              {/* release date */}
+              <InfoContainer
+                title="Release Date:"
+                desc={movieDetails.release_date}
+              />
 
-              <Text style={styles.title}>User Score:</Text>
-              <Text style={styles.desc}>{vote_average * 10}%</Text>
+              {/* user score */}
+              <InfoContainer
+                title="User Score:"
+                desc={`${movieDetails.vote_average * 10}%`}
+              />
 
-              <Text style={styles.title}>Run Time:</Text>
-              <Text style={styles.desc}>{timeConvert(runtime)}</Text>
+              {/* run time */}
+              <InfoContainer
+                title="Run Time:"
+                desc={timeConvert(movieDetails.runtime)}
+              />
             </View>
           </View>
 
+          {/* overview */}
           <Text style={styles.title}>Overview:</Text>
           <ViewMoreText
             numberOfLines={5}
             renderViewLess={renderViewLess}
             renderViewMore={renderViewMore}
           >
-            <Text style={styles.desc}>{overview}</Text>
+            <Text style={styles.desc}>{movieDetails.overview}</Text>
           </ViewMoreText>
         </View>
 
+        {/* Cast Member */}
         <View style={styles.movieCastContainer}>
           <Text style={styles.castHeadline}>Casts:</Text>
 
           <View style={styles.flexRow}>
-            {cast !== undefined
-              ? cast.map((person, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.halfWidth}
-                    onPress={() =>
-                      navigation.navigate("PersonDetails", person.id)
-                    }
-                  >
-                    <View>
-                      <Image
-                        style={styles.castImage}
-                        source={{
-                          uri: `${link.imagePath}${person.profile_path}`
-                        }}
-                      />
-                      <Text style={styles.title}>{person.name}</Text>
-                      <Text style={styles.desc}>{person.character}</Text>
-                    </View>
-                  </TouchableOpacity>
-                ))
-              : null}
+            {movieDetails.cast.map((person, index) => (
+              <CastContainer
+                key={index}
+                person={person}
+                navigation={navigation}
+              />
+            ))}
           </View>
         </View>
       </ScrollView>
@@ -164,18 +155,11 @@ const styles = StyleSheet.create({
     width: "100%",
     flexWrap: "wrap"
   },
-  halfWidth: {
-    width: "50%"
-  },
 
   castHeadline: {
     fontSize: 20,
     fontWeight: "600",
     marginBottom: 10
-  },
-  castImage: {
-    width: "70%",
-    height: 140
   }
 });
 

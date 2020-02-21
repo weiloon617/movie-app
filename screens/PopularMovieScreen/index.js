@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { StyleSheet, View, ScrollView, RefreshControl } from "react-native";
+import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 
 // actions
 import * as actions from "../../store/actions";
@@ -10,76 +10,75 @@ import { connect } from "react-redux";
 // components
 import MovieContainer from "../../components/MovieContainer";
 
+// utils
+import { checkIsCloseToBottom } from "../../utils";
+
 const PopularMovieScreen = ({
   totalPages,
   popularMovieList,
   fetchPopularMovieList,
-  navigation,
-  refreshPopularMovieList
+  clearPopularMovieList,
+  navigation
 }) => {
   const [page, setPage] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
 
+  // load popular movie list
   useEffect(() => {
     fetchPopularMovieList({ page });
   }, []);
 
+  // handle on refresh
   const handleOnRefresh = useCallback(() => {
     setRefreshing(true);
-
-    refreshPopularMovieList();
-
+    // clear the popular movie list
+    clearPopularMovieList();
+    // set page to 1
     setPage(1);
-
-    fetchPopularMovieList({ page }).then(() => {
+    // load popular movie list
+    fetchPopularMovieList({ page: 1 }).then(() => {
       setRefreshing(false);
     });
   }, [refreshing]);
 
-  const isCloseToBottom = ({
-    layoutMeasurement,
-    contentOffset,
-    contentSize
-  }) => {
-    const paddingToBottom = 20;
-    return (
-      layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom
-    );
+  // handle load more popular movie list
+  const handleLoadMoreData = ({ nativeEvent }) => {
+    // check is scroll reach bottom and page is not larger than total pages
+    if (checkIsCloseToBottom(nativeEvent) && page <= totalPages) {
+      // set page + 1
+      const updatePage = page + 1;
+      setPage(updatePage);
+
+      // load popular movie list
+      const payload = { page: updatePage };
+      fetchPopularMovieList(payload);
+    }
   };
 
-  let popularMovieView = null;
-
-  if (popularMovieList.length !== 0) {
-    popularMovieView = (
+  if (popularMovieList.length === 0) {
+    return null;
+  } else {
+    return (
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleOnRefresh} />
         }
-        onMomentumScrollEnd={({ nativeEvent }) => {
-          if (isCloseToBottom(nativeEvent) && page <= totalPages) {
-            setPage(page + 1);
-            fetchPopularMovieList({ page: page + 1 });
-          }
-        }}
+        onMomentumScrollEnd={handleLoadMoreData}
       >
-        <View>
-          {popularMovieList.map((movie, index) => (
-            <MovieContainer
-              key={index}
-              movieInfo={movie}
-              onPress={id => navigation.navigate("MovieDetails", id)}
-              isLastMovieContainer={index === popularMovieList.length - 1}
-            />
-          ))}
-        </View>
+        {/* popular movie list */}
+        {popularMovieList.map((movie, index) => (
+          <MovieContainer
+            key={index}
+            movieInfo={movie}
+            onPress={id => navigation.navigate("MovieDetails", id)}
+            isLastMovieContainer={index === popularMovieList.length - 1}
+          />
+        ))}
       </ScrollView>
     );
   }
-
-  return popularMovieView;
 };
 
 const styles = StyleSheet.create({
@@ -103,7 +102,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchPopularMovieList: payload =>
       dispatch(actions.fetchPopularMovieList(payload)),
-    refreshPopularMovieList: () => dispatch(actions.refreshPopularMovieList())
+    clearPopularMovieList: () => dispatch(actions.clearPopularMovieList())
   };
 };
 

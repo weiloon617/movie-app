@@ -8,14 +8,12 @@ import PopularMovieScreen from "../screens/PopularMovieScreen";
 import TrendingMovieScreen from "../screens/TrendingMovieScreen";
 import SearchMovieScreen from "../screens/SearchMoviesScreen";
 
+// const
+import { tabBarConfig } from "../constants/navigator";
+
 const { Navigator, Screen } = createMaterialTopTabNavigator();
 
 const INITIAL_ROUTE_NAME = "Popular";
-
-const tabBarConfig = {
-  labelStyle: { fontSize: 14 },
-  tabStyle: { padding: 5 }
-};
 
 const TopTabNavigator = () => {
   return (

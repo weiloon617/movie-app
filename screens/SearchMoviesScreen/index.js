@@ -11,59 +11,64 @@ import { connect } from "react-redux";
 // components
 import MovieContainer from "../../components/MovieContainer";
 
+// utils
+import { checkIsCloseToBottom } from "../../utils";
+
 const SearchMoviesScreen = ({
   searchMoviesList,
   searchAllMovies,
-  resetAllMoviesList,
+  clearAllMoviesList,
   totalPages,
   navigation
 }) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  const handleSearchMovie = event => {
-    const { nativeEvent } = event;
+  // handle search movie
+  const handleSearchMovie = ({ nativeEvent }) => {
     const { text } = nativeEvent;
 
+    // set search
     setSearch(text);
 
+    // clear all movie list
+    clearAllMoviesList();
+
+    // if text not empty, then perform search
     if (text !== "") {
-      searchAllMovies({ query: text, page: 1 });
-    } else {
-      resetAllMoviesList();
+      const payload = { query: text, page: 1 };
+      searchAllMovies(payload);
     }
   };
 
-  const isCloseToBottom = ({
-    layoutMeasurement,
-    contentOffset,
-    contentSize
-  }) => {
-    const paddingToBottom = 20;
-    return (
-      layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom
-    );
+  // handle load more data
+  const handleLoadMoreData = ({ nativeEvent }) => {
+    // check is scroll reach bottom and page is not larger than total pages
+    if (checkIsCloseToBottom(nativeEvent) && page <= totalPages) {
+      // set page + 1
+      const updatePage = page + 1;
+      setPage(updatePage);
+
+      // search all movies
+      const payload = { query: search, page: updatePage };
+      searchAllMovies(payload);
+    }
   };
 
   return (
     <View style={styles.container}>
+      {/* search text bar */}
       <TextInput
-        inlineImageLeft="search_icon"
         placeholder="Search movie title"
         style={styles.searchInput}
         onEndEditing={handleSearchMovie}
         clearTextOnFocus={true}
       />
 
+      {/* movie list */}
       <ScrollView
         contentContainerStyle={styles.contentContainer}
-        onMomentumScrollEnd={({ nativeEvent }) => {
-          if (isCloseToBottom(nativeEvent) && page <= totalPages) {
-            setPage(page + 1);
-            searchAllMovies({ query: search, page: page + 1 });
-          }
-        }}
+        onMomentumScrollEnd={handleLoadMoreData}
       >
         {searchMoviesList.length !== 0 ? (
           searchMoviesList.map((movie, index) => (
@@ -117,7 +122,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     searchAllMovies: payload => dispatch(actions.searchAllMovies(payload)),
-    resetAllMoviesList: () => dispatch(actions.resetAllMoviesList())
+    clearAllMoviesList: () => dispatch(actions.clearAllMoviesList())
   };
 };
 

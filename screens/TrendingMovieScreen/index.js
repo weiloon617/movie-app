@@ -21,6 +21,9 @@ import FilterContainer from "./components/FilterContainer";
 // const
 import { filterDrawerConfig } from "../../constants/drawer";
 
+// utils
+import { checkIsCloseToBottom } from "../../utils";
+
 let drawer;
 
 /**
@@ -35,61 +38,70 @@ const closeFilterDrawer = () => drawer.close();
  */
 const openFilterDrawer = () => drawer.open();
 
-const initState = {
-  page: 1,
-  mediaType: "movie",
-  timeWindow: "day"
-};
-
 const TrendingMovieScreen = ({
   trendingMovieList,
   fetchTrendingMovieList,
-  refreshTrendingMovieList,
+  clearTrendingMovieList,
   totalPages,
-  navigation,
   timeWindow,
-  mediaType
+  mediaType,
+  navigation
 }) => {
   const [page, setPage] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
 
+  // load trending movie list
   useEffect(() => {
-    fetchTrendingMovieList(initState);
+    const payload = { page: 1, mediaType, timeWindow };
+    fetchTrendingMovieList(payload);
   }, []);
 
+  // handle on refresh
   const handleOnRefresh = useCallback(() => {
     setRefreshing(true);
-
+    // set page to 1
     setPage(1);
+    // clear trending movie list
+    clearTrendingMovieList();
 
-    refreshTrendingMovieList();
-
-    fetchTrendingMovieList(initState).then(() => {
+    // load trending movie list
+    const payload = { page: 1, timeWindow, mediaType };
+    fetchTrendingMovieList(payload).then(() => {
       setRefreshing(false);
     });
-  }, [refreshing]);
+  }, [refreshing, mediaType, timeWindow]);
 
+  // handle filter trending movie list
   const handleFilterTrendingMovieList = (mediaType, timeWindow) => {
-    fetchTrendingMovieList({ page: 1, mediaType, timeWindow });
+    // clear trending movie list
+    clearTrendingMovieList();
+
+    // load trending movie list
+    const payload = { page: 1, timeWindow, mediaType };
+    fetchTrendingMovieList(payload);
+
+    // close drawer
     closeFilterDrawer();
   };
 
-  const isCloseToBottom = ({
-    layoutMeasurement,
-    contentOffset,
-    contentSize
-  }) => {
-    const paddingToBottom = 20;
-    return (
-      layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom
-    );
+  // handle load more data
+  const handleLoadMoreData = ({ nativeEvent }) => {
+    // check is scroll reach bottom and page is not larger than total pages
+    if (checkIsCloseToBottom(nativeEvent) && page <= totalPages) {
+      // set page + 1
+      const updatePage = page + 1;
+      setPage(updatePage);
+
+      // load trending movie list
+      const payload = { page: updatePage, timeWindow, mediaType };
+      fetchTrendingMovieList(payload);
+    }
   };
 
-  let trendingMovieView = null;
-
-  if (trendingMovieList.length !== 0) {
-    trendingMovieView = (
+  if (trendingMovieList.length === 0) {
+    return null;
+  } else {
+    return (
       <Drawer
         ref={ref => (drawer = ref)}
         content={
@@ -106,17 +118,14 @@ const TrendingMovieScreen = ({
               onRefresh={handleOnRefresh}
             />
           }
-          onMomentumScrollEnd={({ nativeEvent }) => {
-            if (isCloseToBottom(nativeEvent) && page <= totalPages) {
-              setPage(page + 1);
-              fetchTrendingMovieList({ page: page + 1, timeWindow, mediaType });
-            }
-          }}
+          onMomentumScrollEnd={handleLoadMoreData}
         >
+          {/* filte button */}
           <View style={styles.filterButton}>
             <Button onPress={openFilterDrawer} title="Filter" />
           </View>
 
+          {/* trending movie list */}
           <View>
             {trendingMovieList.map((movie, index) => (
               <MovieContainer
@@ -131,8 +140,6 @@ const TrendingMovieScreen = ({
       </Drawer>
     );
   }
-
-  return trendingMovieView;
 };
 
 const styles = StyleSheet.create({
@@ -166,7 +173,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchTrendingMovieList: payload =>
       dispatch(actions.fetchTrendingMovieList(payload)),
-    refreshTrendingMovieList: () => dispatch(actions.refreshTrendingMovieList())
+    clearTrendingMovieList: () => dispatch(actions.clearTrendingMovieList())
   };
 };
 

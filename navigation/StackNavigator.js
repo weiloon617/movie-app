@@ -8,12 +8,10 @@ import PersonDetailsScreen from "../screens/PersonDetailsScreen";
 // top tab navigator
 import TopTabNavigator from "../navigation/TopTabNavigator";
 
-const { Navigator, Screen } = createStackNavigator();
+// const
+import { stackHeaderConfig } from "../constants/navigator";
 
-const stackHeaderConfig = {
-  headerBackTitle: "",
-  headerTitle: ""
-};
+const { Navigator, Screen } = createStackNavigator();
 
 const StackNavigator = () => {
   return (

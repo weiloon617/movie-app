@@ -18,6 +18,7 @@ const MovieContainer = ({ movieInfo, isLastMovieContainer, onPress }) => {
       onPress={() => onPress(id)}
     >
       <View style={styles.movieInnerContainer}>
+        {/* movie image */}
         <View style={styles.movieImageContainer}>
           <Image
             style={styles.movieImage}
@@ -26,11 +27,14 @@ const MovieContainer = ({ movieInfo, isLastMovieContainer, onPress }) => {
         </View>
 
         <View style={styles.movieTextContainer}>
+          {/* title */}
           <Text style={styles.movieHeadline}>{title}</Text>
 
+          {/* release date */}
           <Text style={styles.movieTitle}>Release Date:</Text>
           <Text style={styles.movieText}>{release_date}</Text>
 
+          {/* overview */}
           <Text style={styles.movieTitle}>Overview:</Text>
           <ViewMoreText numberOfLines={3}>
             <Text style={styles.movieText}>{overview}</Text>

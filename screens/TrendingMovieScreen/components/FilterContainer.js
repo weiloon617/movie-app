@@ -12,15 +12,8 @@ import * as actions from "../../../store/actions";
 // redux
 import { connect } from "react-redux";
 
-const mediaTypeList = [
-  { label: "Movie", value: "movie" },
-  { label: "TV", value: "tv" }
-];
-
-const timeWindowList = [
-  { label: "Day", value: "day" },
-  { label: "Week", value: "week" }
-];
+// const
+import { mediaTypeList, timeWindowList } from "../constants";
 
 const FilterContainer = ({
   applyFilter,
@@ -29,13 +22,17 @@ const FilterContainer = ({
   updateFilterState,
   resetFilterState
 }) => {
+  // handle apply filter
   const handleApplyFilter = () => {
     applyFilter(mediaType, timeWindow);
   };
 
+  // handle clear filter
   const handleClearFilter = () => {
+    // reset filter state
     resetFilterState();
-    handleApplyFilter();
+    // apply filter
+    applyFilter("movie", "day");
   };
 
   return (

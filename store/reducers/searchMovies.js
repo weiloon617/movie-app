@@ -31,7 +31,7 @@ const reducer = (state = initialState, action) => {
     case actionsType.SEARCH_ALL_MOVIES_DONE:
       return { ...state, loading: false };
 
-    case actionsType.RESET_ALL_MOVIES_LIST:
+    case actionsType.CLEAR_ALL_MOVIES_LIST:
       return { ...state, searchMoviesList: [] };
 
     default:

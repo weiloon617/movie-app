@@ -63,8 +63,8 @@ export const searchAllMovies = payload => dispatch => {
 };
 
 /**
- * reset all movies list
+ * clear all movies list
  */
-export const resetAllMoviesList = () => ({
-  type: actions.RESET_ALL_MOVIES_LIST
+export const clearAllMoviesList = () => ({
+  type: actions.CLEAR_ALL_MOVIES_LIST
 });

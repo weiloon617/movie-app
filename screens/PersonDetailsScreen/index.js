@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 
 // components
 import Spinner from "../../components/Spinner";
+import InfoContainer from "../../components/InfoContainer";
+import MovieContainer from "./components/MovieContainer";
 
 // const
 import link from "../../constants/links";
@@ -25,6 +27,7 @@ const PersonDetailsScreen = ({
   personDetails,
   fetchPersonDetails
 }) => {
+  // load person details
   useEffect(() => {
     const { params } = route;
     fetchPersonDetails(params);
@@ -33,16 +36,6 @@ const PersonDetailsScreen = ({
   let personDetailsView = <Spinner />;
 
   if (!loading && Object.values(personDetails).length !== 0) {
-    const {
-      name,
-      birthday,
-      gender,
-      biography,
-      place_of_birth,
-      profile_path,
-      cast
-    } = personDetails;
-
     personDetailsView = (
       <ScrollView
         style={styles.container}
@@ -50,61 +43,55 @@ const PersonDetailsScreen = ({
       >
         <View style={styles.personDetailsContainer}>
           <View style={styles.personDetialsInfo}>
+            {/* cast member image */}
             <Image
               style={styles.personDetailsImage}
-              source={{ uri: `${link.imagePath}${profile_path}` }}
+              source={{ uri: `${link.imagePath}${personDetails.profile_path}` }}
               resizeMethod={"auto"}
             ></Image>
 
             <View style={styles.personDetailsDesc}>
-              <Text style={styles.personName}>{name}</Text>
+              <Text style={styles.personName}>{personDetails.name}</Text>
 
-              <Text style={styles.title}>Gender:</Text>
-              <Text style={styles.desc}>
-                {gender === 2 ? "Male" : "Female"}
-              </Text>
+              {/* gender */}
+              <InfoContainer
+                title="Gender:"
+                desc={personDetails.gender === 2 ? "Male" : "Female"}
+              />
 
-              <Text style={styles.title}>Birthday:</Text>
-              <Text style={styles.desc}>{birthday}</Text>
+              {/* birthday */}
+              <InfoContainer title="Birthday:" desc={personDetails.birthday} />
 
-              <Text style={styles.title}>Place of birth: </Text>
-              <Text style={styles.desc}>{place_of_birth}</Text>
+              {/* place of birth */}
+              <InfoContainer
+                title="Place of birth:"
+                desc={personDetails.place_of_birth}
+              />
             </View>
           </View>
 
+          {/* biography */}
           <ViewMoreText
             numberOfLines={5}
             renderViewLess={renderViewLess}
             renderViewMore={renderViewMore}
           >
-            <Text style={styles.desc}>{biography}</Text>
+            <Text style={styles.desc}>{personDetails.biography}</Text>
           </ViewMoreText>
         </View>
 
+        {/* movie list */}
         <View style={styles.movieListContainer}>
           <Text style={styles.movieListHeadline}>Acting Movies:</Text>
 
           <View style={styles.flexRow}>
-            {cast !== undefined
-              ? cast.map((movie, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.halfWidth}
-                    onPress={() => navigation.push("MovieDetails", movie.id)}
-                  >
-                    <View>
-                      <Image
-                        style={styles.movieImage}
-                        source={{
-                          uri: `${link.imagePath}${movie.poster_path}`
-                        }}
-                      />
-                      <Text style={styles.title}>{movie.title}</Text>
-                      <Text style={styles.desc}>{movie.character}</Text>
-                    </View>
-                  </TouchableOpacity>
-                ))
-              : null}
+            {personDetails.cast.map((movie, index) => (
+              <MovieContainer
+                key={index}
+                movie={movie}
+                navigation={navigation}
+              />
+            ))}
           </View>
         </View>
       </ScrollView>
@@ -163,18 +150,11 @@ const styles = StyleSheet.create({
     width: "100%",
     flexWrap: "wrap"
   },
-  halfWidth: {
-    width: "50%"
-  },
 
   movieListHeadline: {
     fontSize: 20,
     fontWeight: "600",
     marginBottom: 10
-  },
-  movieImage: {
-    width: "70%",
-    height: 140
   }
 });
 

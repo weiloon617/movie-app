@@ -31,7 +31,7 @@ const reducer = (state = initialState, action) => {
     case actionsType.FETCH_POPULAR_MOVIE_LIST_DONE:
       return { ...state, loading: false };
 
-    case actionsType.REFRESH_POPULAR_MOVIE_LIST:
+    case actionsType.CLEAR_POPULAR_MOVIE_LIST:
       return { ...state, popularMovieList: [] };
 
     default:

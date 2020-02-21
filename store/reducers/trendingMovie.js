@@ -40,7 +40,7 @@ const reducer = (state = initialState, action) => {
     case actionsType.RESET_FILTER_STATE:
       return { ...state, mediaType: "movie", timeWindow: "day" };
 
-    case actionsType.REFRESH_TRENDING_MOVIE_LIST:
+    case actionsType.CLEAR_TRENDING_MOVIE_LIST:
       return { ...state, trendingMovieList: [] };
 
     default:

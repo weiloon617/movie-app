@@ -1,10 +1,10 @@
-export { fetchPopularMovieList, refreshPopularMovieList } from "./popularMovie";
+export { fetchPopularMovieList, clearPopularMovieList } from "./popularMovie";
 export {
   fetchTrendingMovieList,
   updateFilterState,
   resetFilterState,
-  refreshTrendingMovieList
+  clearTrendingMovieList
 } from "./trendingMovie";
 export { fetchMovieDetails } from "./movieDetails";
 export { fetchPersonDetails } from "./personDetails";
-export { searchAllMovies, resetAllMoviesList } from "./searchMovies";
+export { searchAllMovies, clearAllMoviesList } from "./searchMovies";
