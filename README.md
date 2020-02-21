@@ -74,7 +74,7 @@ expo build:android
     │
     ├─components    # components that only be used by the this screen
     │
-    ├─utils         # functions or methods can be use by this the screens or modules
+    ├─constants     # declare the variable or configuration which only used for this screen or module 
 ```
 
 #### Redux Folder Structure
