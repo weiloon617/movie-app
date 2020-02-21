@@ -50,8 +50,10 @@ export async function getMovieCredits(payload) {
  * @param {*} payload
  */
 export async function searchMovies(payload) {
+  const { page, query } = payload;
+
   return GET(
-    `${link.baseUrl}/search/movie?api_key=${link.api_key}&query=${payload}`
+    `${link.baseUrl}/search/movie?api_key=${link.api_key}&query=${query}&page=${page}`
   );
 }
 

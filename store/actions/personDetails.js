@@ -52,8 +52,8 @@ export const fetchPersonDetails = payload => dispatch => {
         .then(res => {
           dispatch(fetchPersonDetailsSuccess(res));
         })
-        .catch(err => dispatch(fetchPersonDetailsFail(err.message)));
+        .catch(err => dispatch(fetchPersonDetailsFail(err)));
     })
-    .catch(err => dispatch(fetchPersonDetailsFail(err.message)))
+    .catch(err => dispatch(fetchPersonDetailsFail(err)))
     .finally(() => dispatch(fetchPersonDetailsDone()));
 };

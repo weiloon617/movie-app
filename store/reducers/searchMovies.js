@@ -21,10 +21,18 @@ const reducer = (state = initialState, action) => {
 
     case actionsType.SEARCH_ALL_MOVIES_SUCCESS:
       const { searchMoviesInfo } = action;
-      return { ...state, ...searchMoviesInfo };
+      const { searchMoviesList, ...res } = searchMoviesInfo;
+      return {
+        ...state,
+        ...res,
+        searchMoviesList: [...state.searchMoviesList, ...searchMoviesList]
+      };
 
     case actionsType.SEARCH_ALL_MOVIES_DONE:
       return { ...state, loading: false };
+
+    case actionsType.RESET_ALL_MOVIES_LIST:
+      return { ...state, searchMoviesList: [] };
 
     default:
       return { ...state };

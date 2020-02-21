@@ -16,7 +16,6 @@ import { connect } from "react-redux";
 
 // components
 import MovieContainer from "../../components/MovieContainer";
-import Spinner from "../../components/Spinner";
 import FilterContainer from "./components/FilterContainer";
 
 // const
@@ -43,7 +42,6 @@ const initState = {
 };
 
 const TrendingMovieScreen = ({
-  loading,
   trendingMovieList,
   fetchTrendingMovieList,
   refreshTrendingMovieList,

@@ -56,7 +56,7 @@ export const fetchTrendingMovieList = payload => dispatch => {
       );
     })
     .catch(err => {
-      dispatch(fetchTrendingMovieListFail(err.message));
+      dispatch(fetchTrendingMovieListFail(err));
     })
     .finally(() => dispatch(fetchTrendingMovieListDone()));
 };

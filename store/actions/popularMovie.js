@@ -57,7 +57,7 @@ export const fetchPopularMovieList = payload => dispatch => {
       );
     })
     .catch(err => {
-      dispatch(fetchPopularMovieListFail(err.message));
+      dispatch(fetchPopularMovieListFail(err));
     })
     .finally(() => dispatch(fetchPopularMovieListDone()));
 };

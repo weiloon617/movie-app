@@ -52,8 +52,8 @@ export const fetchMovieDetails = payload => dispatch => {
         .then(res => {
           dispatch(fetchMovieDetailsSuccess(res));
         })
-        .catch(err => dispatch(fetchMovieDetailsFail(err.message)));
+        .catch(err => dispatch(fetchMovieDetailsFail(err)));
     })
-    .catch(err => dispatch(fetchMovieDetailsFail(err.message)))
+    .catch(err => dispatch(fetchMovieDetailsFail(err)))
     .finally(() => dispatch(fetchMovieDetailsDone()));
 };

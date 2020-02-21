@@ -57,7 +57,14 @@ export const searchAllMovies = payload => dispatch => {
       );
     })
     .catch(err => {
-      dispatch(searchAllMoviesFail(err.message));
+      dispatch(searchAllMoviesFail(err));
     })
     .finally(() => dispatch(searchAllMoviesDone()));
 };
+
+/**
+ * reset all movies list
+ */
+export const resetAllMoviesList = () => ({
+  type: actions.RESET_ALL_MOVIES_LIST
+});
