@@ -37,7 +37,7 @@ const PopularMovieScreen = ({
             <MovieContainer
               key={index}
               movieInfo={movie}
-              onPress={id => navigation.navigate("Movie", id)}
+              onPress={id => navigation.navigate("MovieDetails", id)}
               isLastMovieContainer={index === popularMovieList.length - 1}
             />
           ))}

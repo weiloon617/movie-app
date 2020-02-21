@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   filterFooterContainer: {
     position: "absolute",
-    bottom: 0
+    bottom: 20
   },
   flexRow: {
     flexDirection: "row",

@@ -8,7 +8,7 @@ const drawerStyles = {
  */
 export const filterDrawerConfig = {
   type: "overlay",
-  // tapToClose: true, // tap to close the drawer
+  tapToClose: true, // tap to close the drawer
   openDrawerOffset: 0.2, // 20% gap on the left side of drawer
   panCloseMask: 0.2,
   closedDrawerOffset: -3,

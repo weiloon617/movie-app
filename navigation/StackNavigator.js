@@ -5,8 +5,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MovieDetailsScreen from "../screens/MovieDetailsScreen";
 import PersonDetailsScreen from "../screens/PersonDetailsScreen";
 
-// bottom tab navigator
-import BottomTabNavigator from "../navigation/BottomTabNavigator";
+// top tab navigator
+import TopTabNavigator from "../navigation/TopTabNavigator";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -18,14 +18,14 @@ const stackHeaderConfig = {
 const StackNavigator = () => {
   return (
     <Navigator>
-      <Screen name="Root" component={BottomTabNavigator} />
+      <Screen name="Movies" component={TopTabNavigator} />
       <Screen
-        name="Movie"
+        name="MovieDetails"
         component={MovieDetailsScreen}
         options={stackHeaderConfig}
       />
       <Screen
-        name="Person"
+        name="PersonDetails"
         component={PersonDetailsScreen}
         options={stackHeaderConfig}
       />

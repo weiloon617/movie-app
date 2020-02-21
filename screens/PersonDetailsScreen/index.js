@@ -90,7 +90,7 @@ const PersonDetailsScreen = ({
                   <TouchableOpacity
                     key={index}
                     style={styles.halfWidth}
-                    onPress={() => navigation.push("Movie", movie.id)}
+                    onPress={() => navigation.push("MovieDetails", movie.id)}
                   >
                     <View>
                       <Image
