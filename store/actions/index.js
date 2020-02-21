@@ -1,4 +1,4 @@
-export { fetchPopularMovieList } from "./popularMovie";
+export { fetchPopularMovieList, refreshPopularMovieList } from "./popularMovie";
 export {
   fetchTrendingMovieList,
   updateFilterState,

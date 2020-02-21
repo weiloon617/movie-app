@@ -7,7 +7,9 @@ import link from "../constants/links";
  * @param {*} payload
  */
 export async function getPopularMovieList(payload) {
-  return GET(`${link.baseUrl}/movie/popular?api_key=${link.api_key}`, payload);
+  return GET(
+    `${link.baseUrl}/movie/popular?api_key=${link.api_key}&page=${payload.page}`
+  );
 }
 
 /**

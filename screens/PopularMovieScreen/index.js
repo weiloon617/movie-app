@@ -9,13 +9,13 @@ import { connect } from "react-redux";
 
 // components
 import MovieContainer from "../../components/MovieContainer";
-import Spinner from "../../components/Spinner";
 
 const PopularMovieScreen = ({
-  loading,
+  totalPages,
   popularMovieList,
   fetchPopularMovieList,
-  navigation
+  navigation,
+  refreshPopularMovieList
 }) => {
   const [page, setPage] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
@@ -27,14 +27,30 @@ const PopularMovieScreen = ({
   const handleOnRefresh = useCallback(() => {
     setRefreshing(true);
 
+    refreshPopularMovieList();
+
+    setPage(1);
+
     fetchPopularMovieList({ page }).then(() => {
       setRefreshing(false);
     });
   }, [refreshing]);
 
-  let popularMovieView = <Spinner />;
+  const isCloseToBottom = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize
+  }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
 
-  if (!loading && popularMovieList.length !== 0) {
+  let popularMovieView = null;
+
+  if (popularMovieList.length !== 0) {
     popularMovieView = (
       <ScrollView
         style={styles.container}
@@ -42,6 +58,12 @@ const PopularMovieScreen = ({
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleOnRefresh} />
         }
+        onMomentumScrollEnd={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent) && page <= totalPages) {
+            setPage(page + 1);
+            fetchPopularMovieList({ page: page + 1 });
+          }
+        }}
       >
         <View>
           {popularMovieList.map((movie, index) => (
@@ -72,15 +94,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   const { popularMovie } = state;
-  const { loading, popularMovieList } = popularMovie;
+  const { loading, popularMovieList, totalPages } = popularMovie;
 
-  return { loading, popularMovieList };
+  return { loading, popularMovieList, totalPages };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchPopularMovieList: payload =>
-      dispatch(actions.fetchPopularMovieList(payload))
+      dispatch(actions.fetchPopularMovieList(payload)),
+    refreshPopularMovieList: () => dispatch(actions.refreshPopularMovieList())
   };
 };
 

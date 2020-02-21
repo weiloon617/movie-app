@@ -61,3 +61,10 @@ export const fetchPopularMovieList = payload => dispatch => {
     })
     .finally(() => dispatch(fetchPopularMovieListDone()));
 };
+
+/**
+ * refresh popular movie list
+ */
+export const refreshPopularMovieList = () => ({
+  type: actions.REFRESH_POPULAR_MOVIE_LIST
+});

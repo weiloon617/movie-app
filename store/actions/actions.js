@@ -6,6 +6,7 @@ export const FETCH_POPULAR_MOVIE_LIST_SUCCESS =
   "FETCH_POPULAR_MOVIE_LIST_SUCCESS";
 export const FETCH_POPULAR_MOVIE_LIST_FAIL = "FETCH_POPULAR_MOVIE_LIST_FAIL";
 export const FETCH_POPULAR_MOVIE_LIST_DONE = "FETCH_POPULAR_MOVIE_LIST_DONE";
+export const REFRESH_POPULAR_MOVIE_LIST = "REFRESH_POPULAR_MOVIE_LIST";
 
 /****************************************/
 /* actions type for treding movie list */

@@ -21,10 +21,18 @@ const reducer = (state = initialState, action) => {
 
     case actionsType.FETCH_POPULAR_MOVIE_LIST_SUCCESS:
       const { popularMovieListInfo } = action;
-      return { ...state, ...popularMovieListInfo };
+      const { popularMovieList, ...res } = popularMovieListInfo;
+      return {
+        ...state,
+        ...res,
+        popularMovieList: [...state.popularMovieList, ...popularMovieList]
+      };
 
     case actionsType.FETCH_POPULAR_MOVIE_LIST_DONE:
       return { ...state, loading: false };
+
+    case actionsType.REFRESH_POPULAR_MOVIE_LIST:
+      return { ...state, popularMovieList: [] };
 
     default:
       return { ...state };
