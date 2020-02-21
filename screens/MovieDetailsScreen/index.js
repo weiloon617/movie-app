@@ -90,13 +90,13 @@ const MovieDetailScreen = ({
           <Text style={styles.castHeadline}>Casts:</Text>
 
           <View style={styles.flexRow}>
-            {movieDetails.cast.map((person, index) => (
+            {movieDetails.cast !== undefined ? movieDetails.cast.map((person, index) => (
               <CastContainer
                 key={index}
                 person={person}
                 navigation={navigation}
               />
-            ))}
+            )): null}
           </View>
         </View>
       </ScrollView>

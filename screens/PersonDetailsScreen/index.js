@@ -48,7 +48,7 @@ const PersonDetailsScreen = ({
               style={styles.personDetailsImage}
               source={{ uri: `${link.imagePath}${personDetails.profile_path}` }}
               resizeMethod={"auto"}
-            ></Image>
+            />
 
             <View style={styles.personDetailsDesc}>
               <Text style={styles.personName}>{personDetails.name}</Text>
@@ -85,13 +85,13 @@ const PersonDetailsScreen = ({
           <Text style={styles.movieListHeadline}>Acting Movies:</Text>
 
           <View style={styles.flexRow}>
-            {personDetails.cast.map((movie, index) => (
+            {personDetails.cast !== undefined ? personDetails.cast.map((movie, index) => (
               <MovieContainer
                 key={index}
                 movie={movie}
                 navigation={navigation}
               />
-            ))}
+            )): null}
           </View>
         </View>
       </ScrollView>
