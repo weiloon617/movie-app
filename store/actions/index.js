@@ -6,3 +6,4 @@ export {
 } from "./trendingMovie";
 export { fetchMovieDetails } from "./movieDetails";
 export { fetchPersonDetails } from "./personDetails";
+export { searchAllMovies } from "./searchMovies";

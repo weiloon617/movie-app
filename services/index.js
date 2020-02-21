@@ -46,7 +46,9 @@ export async function getMovieCredits(payload) {
  * @param {*} payload
  */
 export async function searchMovies(payload) {
-  return GET(`${link.baseUrl}/search/movie?api_key=${link.api_key}`);
+  return GET(
+    `${link.baseUrl}/search/movie?api_key=${link.api_key}&query=${payload}`
+  );
 }
 
 /**

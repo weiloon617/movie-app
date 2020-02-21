@@ -6,6 +6,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 // screens
 import PopularMovieScreen from "../screens/PopularMovieScreen";
 import TrendingMovieScreen from "../screens/TrendingMovieScreen";
+import SearchMovieScreen from "../screens/SearchMoviesScreen";
 
 const { Navigator, Screen } = createMaterialTopTabNavigator();
 
@@ -31,6 +32,11 @@ const TopTabNavigator = () => {
         name="Trending"
         component={TrendingMovieScreen}
         options={{ title: "Trending" }}
+      />
+      <Screen
+        name="Search"
+        component={SearchMovieScreen}
+        options={{ title: "Search" }}
       />
     </Navigator>
   );
