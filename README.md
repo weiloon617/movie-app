@@ -6,7 +6,7 @@ This is a native mobile application created by using:
 2. react-native    
 3. redux
 
-api link - ""
+The Movie DB Api - https://www.themoviedb.org/documentation/api
 ```
 
 ### Development Guideline
@@ -57,7 +57,7 @@ expo build:android
           |
           |-store       # redux -> actions and reducers
           |
-          |-utils       #  functions or methods can be use by all the screens / modules
+          |-utils       #  functions or methods can be use by all the screens or modules
 ```
 
 #### Screens / Modules Folder Structure
@@ -70,5 +70,25 @@ expo build:android
     │   index.js
     │
     ├─components    # components that only be used by the this screen
+    │
+    ├─utils         # functions or methods can be use by this the screens or modules
+```
 
+#### Redux Folder Structure
+
+> under /store folder, you may create two folders 
+> as actions and reducers, the folder structure are just like below:
+
+```text
+├─store
+    │
+    ├─actions           
+    |    index.js          # export screens or modules actions
+    |    actions.js        # actions type
+    |    example.js        # screens or modules actions
+    |
+    ├-reducers         
+    |    index.js          # combine root reducer
+    |    example.js        # screens or modules reducers
+    |
 ```
