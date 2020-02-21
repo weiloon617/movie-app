@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { useEffect, useState, useCallback } from "react";
+import { StyleSheet, View, ScrollView, RefreshControl } from "react-native";
 
 // actions
 import * as actions from "../../store/actions";
@@ -19,10 +18,19 @@ const PopularMovieScreen = ({
   navigation
 }) => {
   const [page, setPage] = useState(1);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchPopularMovieList({ page });
   }, []);
+
+  const handleOnRefresh = useCallback(() => {
+    setRefreshing(true);
+
+    fetchPopularMovieList({ page }).then(() => {
+      setRefreshing(false);
+    });
+  }, [refreshing]);
 
   let popularMovieView = <Spinner />;
 
@@ -31,6 +39,9 @@ const PopularMovieScreen = ({
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleOnRefresh} />
+        }
       >
         <View>
           {popularMovieList.map((movie, index) => (

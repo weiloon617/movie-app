@@ -1,6 +1,11 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Button } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { useEffect, useCallback, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Button,
+  ScrollView,
+  RefreshControl
+} from "react-native";
 import Drawer from "react-native-drawer";
 
 // actions
@@ -37,9 +42,23 @@ const TrendingMovieScreen = ({
   fetchTrendingMovieList,
   navigation
 }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
   useEffect(() => {
     handleFetchTrendingMovieList();
   }, []);
+
+  const handleOnRefresh = useCallback(() => {
+    setRefreshing(true);
+
+    fetchTrendingMovieList({
+      page: 1,
+      mediaType: "movie",
+      timeWindow: "day"
+    }).then(() => {
+      setRefreshing(false);
+    });
+  }, [refreshing]);
 
   const handleFetchTrendingMovieList = (
     page = 1,
@@ -68,6 +87,12 @@ const TrendingMovieScreen = ({
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleOnRefresh}
+            />
+          }
         >
           <View style={styles.filterButton}>
             <Button onPress={openFilterDrawer} title="Filter" />

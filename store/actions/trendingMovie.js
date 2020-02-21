@@ -43,7 +43,7 @@ export const fetchTrendingMovieListDone = () => ({
 export const fetchTrendingMovieList = payload => dispatch => {
   dispatch(fetchTrendingMovieListStart());
 
-  getTrendingMovieList(payload)
+  return getTrendingMovieList(payload)
     .then(res => {
       const { page, total_results, total_pages, results } = res;
       dispatch(
