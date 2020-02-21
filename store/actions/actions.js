@@ -19,6 +19,7 @@ export const FETCH_TRENDING_MOVIE_LIST_FAIL = "FETCH_TRENDING_MOVIE_LIST_FAIL";
 export const FETCH_TRENDING_MOVIE_LIST_DONE = "FETCH_TRENDING_MOVIE_LIST_DONE";
 export const UPDATE_FILTER_STATE = "UPDATE_FILTER_STATE";
 export const RESET_FILTER_STATE = "RESET_FILTER_STATE";
+export const REFRESH_TRENDING_MOVIE_LIST = "REFRESH_TRENDING_MOVIE_LIST";
 
 /***********************************/
 /* actions type for movie details */

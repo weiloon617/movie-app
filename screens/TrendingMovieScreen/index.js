@@ -36,46 +36,61 @@ const closeFilterDrawer = () => drawer.close();
  */
 const openFilterDrawer = () => drawer.open();
 
+const initState = {
+  page: 1,
+  mediaType: "movie",
+  timeWindow: "day"
+};
+
 const TrendingMovieScreen = ({
   loading,
   trendingMovieList,
   fetchTrendingMovieList,
-  navigation
+  refreshTrendingMovieList,
+  totalPages,
+  navigation,
+  timeWindow,
+  mediaType
 }) => {
+  const [page, setPage] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    handleFetchTrendingMovieList();
+    fetchTrendingMovieList(initState);
   }, []);
 
   const handleOnRefresh = useCallback(() => {
     setRefreshing(true);
 
-    fetchTrendingMovieList({
-      page: 1,
-      mediaType: "movie",
-      timeWindow: "day"
-    }).then(() => {
+    setPage(1);
+
+    refreshTrendingMovieList();
+
+    fetchTrendingMovieList(initState).then(() => {
       setRefreshing(false);
     });
   }, [refreshing]);
 
-  const handleFetchTrendingMovieList = (
-    page = 1,
-    mediaType = "movie",
-    timeWindow = "day"
-  ) => {
-    fetchTrendingMovieList({ page, mediaType, timeWindow });
-  };
-
   const handleFilterTrendingMovieList = (mediaType, timeWindow) => {
-    handleFetchTrendingMovieList(1, mediaType, timeWindow);
+    fetchTrendingMovieList({ page: 1, mediaType, timeWindow });
     closeFilterDrawer();
   };
 
-  let trendingMovieView = <Spinner />;
+  const isCloseToBottom = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize
+  }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
 
-  if (!loading && trendingMovieList.length !== 0) {
+  let trendingMovieView = null;
+
+  if (trendingMovieList.length !== 0) {
     trendingMovieView = (
       <Drawer
         ref={ref => (drawer = ref)}
@@ -93,6 +108,12 @@ const TrendingMovieScreen = ({
               onRefresh={handleOnRefresh}
             />
           }
+          onMomentumScrollEnd={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent) && page <= totalPages) {
+              setPage(page + 1);
+              fetchTrendingMovieList({ page: page + 1, timeWindow, mediaType });
+            }
+          }}
         >
           <View style={styles.filterButton}>
             <Button onPress={openFilterDrawer} title="Filter" />
@@ -132,15 +153,22 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   const { trendingMovie } = state;
-  const { loading, trendingMovieList } = trendingMovie;
+  const {
+    loading,
+    trendingMovieList,
+    totalPages,
+    timeWindow,
+    mediaType
+  } = trendingMovie;
 
-  return { loading, trendingMovieList };
+  return { loading, trendingMovieList, totalPages, timeWindow, mediaType };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchTrendingMovieList: payload =>
-      dispatch(actions.fetchTrendingMovieList(payload))
+      dispatch(actions.fetchTrendingMovieList(payload)),
+    refreshTrendingMovieList: () => dispatch(actions.refreshTrendingMovieList())
   };
 };
 

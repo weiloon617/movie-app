@@ -23,7 +23,12 @@ const reducer = (state = initialState, action) => {
 
     case actionsType.FETCH_TRENDING_MOVIE_LIST_SUCCESS:
       const { trendingMovieListInfo } = action;
-      return { ...state, ...trendingMovieListInfo };
+      const { trendingMovieList, ...res } = trendingMovieListInfo;
+      return {
+        ...state,
+        ...res,
+        trendingMovieList: [...state.trendingMovieList, ...trendingMovieList]
+      };
 
     case actionsType.FETCH_TRENDING_MOVIE_LIST_DONE:
       return { ...state, loading: false };
@@ -34,6 +39,9 @@ const reducer = (state = initialState, action) => {
 
     case actionsType.RESET_FILTER_STATE:
       return { ...state, mediaType: "movie", timeWindow: "day" };
+
+    case actionsType.REFRESH_TRENDING_MOVIE_LIST:
+      return { ...state, trendingMovieList: [] };
 
     default:
       return { ...state };

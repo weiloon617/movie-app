@@ -7,8 +7,10 @@ import link from "../constants/links";
  * @param {*} payload
  */
 export async function getPopularMovieList(payload) {
+  const { page } = payload;
+
   return GET(
-    `${link.baseUrl}/movie/popular?api_key=${link.api_key}&page=${payload.page}`
+    `${link.baseUrl}/movie/popular?api_key=${link.api_key}&page=${page}`
   );
 }
 
@@ -18,10 +20,10 @@ export async function getPopularMovieList(payload) {
  * @param {*} payload
  */
 export async function getTrendingMovieList(payload) {
-  const { mediaType, timeWindow } = payload;
+  const { mediaType, timeWindow, page } = payload;
 
   return GET(
-    `${link.baseUrl}/trending/${mediaType}/${timeWindow}?api_key=${link.api_key}`
+    `${link.baseUrl}/trending/${mediaType}/${timeWindow}?api_key=${link.api_key}&page=${page}`
   );
 }
 

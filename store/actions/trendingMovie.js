@@ -76,3 +76,10 @@ export const updateFilterState = updatedState => ({
 export const resetFilterState = () => ({
   type: actions.RESET_FILTER_STATE
 });
+
+/**
+ * refresh trending movie list
+ */
+export const refreshTrendingMovieList = () => ({
+  type: actions.REFRESH_TRENDING_MOVIE_LIST
+});
